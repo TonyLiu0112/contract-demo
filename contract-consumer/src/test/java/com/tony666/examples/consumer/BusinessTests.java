@@ -1,7 +1,10 @@
 package com.tony666.examples.consumer;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.tony666.examples.consumer.config.HttpClientConfig;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +27,9 @@ public class BusinessTests {
     @Test
     public void test() {
         ResponseEntity<String> mapResponseEntity = restTemplate.postForEntity("http://localhost:8080/payment/codes", null, String.class);
-        log.info(mapResponseEntity.getBody());
+        JSONObject resp = JSON.parseObject(mapResponseEntity.getBody());
+        log.info(resp.toString());
+        Assert.assertEquals(100, resp.get("code"));
     }
 
 }
